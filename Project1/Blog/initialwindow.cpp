@@ -6,6 +6,10 @@ InitialWindow::InitialWindow(QWidget *parent) :
     ui(new Ui::InitialWindow)
 {
     ui->setupUi(this);
+
+    //Setup Log In Window
+    login = new LogInWindow(this);
+    connect(ui->loginBtn, SIGNAL(clicked(bool)), login, SLOT(show()));
 }
 
 InitialWindow::~InitialWindow()

@@ -2,6 +2,7 @@
 #define INITIALWINDOW_H
 
 #include <QMainWindow>
+#include "loginwindow.h"
 
 namespace Ui {
 class InitialWindow;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::InitialWindow *ui;
+    LogInWindow *login;
 };
 
 #endif // INITIALWINDOW_H

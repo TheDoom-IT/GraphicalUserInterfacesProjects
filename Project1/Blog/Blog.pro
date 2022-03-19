@@ -17,15 +17,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     initialwindow.cpp \
+    loginwindow.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     initialwindow.h \
+    loginwindow.h \
     mainwindow.h
 
 FORMS += \
     initialwindow.ui \
+    loginwindow.ui \
     mainwindow.ui
 
 TRANSLATIONS += \
