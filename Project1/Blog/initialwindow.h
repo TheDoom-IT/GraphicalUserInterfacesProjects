@@ -2,7 +2,12 @@
 #define INITIALWINDOW_H
 
 #include <QMainWindow>
-#include "loginwindow.h"
+
+enum class Page {
+    INITIAL = 0,
+    LOGIN = 1,
+    REGISTER = 2
+};
 
 namespace Ui {
 class InitialWindow;
@@ -16,9 +21,26 @@ public:
     explicit InitialWindow(QWidget *parent = nullptr);
     ~InitialWindow();
 
+signals:
+    void openMainWindow();
+
+private slots:
+    // navigation buttons
+    void on_signInBtn_clicked();
+
+    void on_signUpBtn_clicked();
+
+    void on_loginBackBtn_clicked();
+
+    void on_rgsBackBtn_clicked();
+
+    // action buttons
+    void signIn();
+
+    void signUp();
+
 private:
     Ui::InitialWindow *ui;
-    LogInWindow *login;
 };
 
 #endif // INITIALWINDOW_H
