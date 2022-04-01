@@ -16,21 +16,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    createblogdialog.cpp \
     initialwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    models/blog.cpp \
+    models/blogentry.cpp \
     models/user.cpp \
+    repositories/blogrepository.cpp \
     repositories/userrepository.cpp \
+    services/blogservice.cpp \
     services/login.cpp
 
 HEADERS += \
+    createblogdialog.h \
     initialwindow.h \
     mainwindow.h \
+    models/blog.h \
+    models/blogentry.h \
+    repositories/blogrepository.h \
     repositories/userrepository.h \
     models/user.h \
+    services/blogservice.h \
     services/login.h
 
 FORMS += \
+    createblogdialog.ui \
     initialwindow.ui \
     mainwindow.ui
 

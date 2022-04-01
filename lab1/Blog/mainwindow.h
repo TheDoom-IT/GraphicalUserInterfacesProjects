@@ -3,11 +3,16 @@
 
 #include <QMainWindow>
 #include "initialwindow.h"
+#include "createblogdialog.h"
 #include "repositories/userrepository.h"
+#include "repositories/blogrepository.h"
 #include "services/login.h"
+#include "services/blogservice.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
@@ -23,12 +28,18 @@ public:
 
 public slots:
     void initializeMainWindow();
+    void createEmptyBlog(QString title);
 
 private:
     Ui::MainWindow *ui;
 
     InitialWindow* initial;
+    CreateBlogDialog* createBlogDialog;
     LoginService* loginService;
+    BlogService* blogService;
     UserRepository* userRepository;
+    BlogRepository* blogRepository;
+
+    void prepareEntryTable();
 };
 #endif // MAINWINDOW_H

@@ -1,0 +1,38 @@
+#ifndef CREATEBLOGDIALOG_H
+#define CREATEBLOGDIALOG_H
+
+#include <QDialog>
+#include <QAbstractButton>
+#include <QKeyEvent>
+#include "services/blogservice.h"
+#include "services/login.h"
+
+namespace Ui {
+class CreateBlogDialog;
+}
+
+class CreateBlogDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit CreateBlogDialog(QWidget *parent);
+    ~CreateBlogDialog();
+    void setErrorMessage(QString message);
+
+private slots:
+
+    void on_titleText_textChanged(const QString &arg1);
+
+    void on_okBtn_clicked();
+
+signals:
+    void accepted(QString title);
+
+private:
+    Ui::CreateBlogDialog *ui;
+
+    void keyPressEvent(QKeyEvent *);
+};
+
+#endif // CREATEBLOGDIALOG_H
