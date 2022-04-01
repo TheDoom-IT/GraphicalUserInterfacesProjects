@@ -1,4 +1,5 @@
 #include "blogservice.h"
+#include <QtDebug>
 
 BlogService::BlogService(BlogRepository* blogRepository)
 {
@@ -34,4 +35,27 @@ bool BlogService::loadBlogOfUser(QString userId)
     }
 
     return false;
+}
+
+void BlogService::removeEntries(QList<int> indices)
+{
+    for(int index : indices)
+    {
+        currentBlog->removeEntry(index);
+    }
+
+    blogRepository->updateOne(*currentBlog);
+}
+
+void BlogService::updateEntry(int index, QString title, QString content)
+{
+    currentBlog->updateEntry(index, title, content);
+    blogRepository->updateOne(*currentBlog);
+}
+
+void BlogService::addEntry(QString title, QString content)
+{
+    BlogEntry blogEntry(title, QDateTime::currentDateTime(), content);
+    currentBlog->addEntry(blogEntry);
+    blogRepository->updateOne(*currentBlog);
 }

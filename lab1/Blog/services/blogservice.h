@@ -1,7 +1,7 @@
 #ifndef BLOGSERVICE_H
 #define BLOGSERVICE_H
 
-#include <QCoreApplication>
+#include <QtCore>
 #include <utility>
 #include "models/blog.h"
 #include "repositories/blogrepository.h"
@@ -20,6 +20,13 @@ public:
     Blog* getCurrentBlog() const {
         return currentBlog;
     }
+
+    void removeEntries(QList<int>);
+    void updateEntry(int, QString, QString);
+    void addEntry(QString, QString);
+//public signals:
+//    void blogUpdated();
+
 private:
     Blog* currentBlog;
     BlogRepository* blogRepository;

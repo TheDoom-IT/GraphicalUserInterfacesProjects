@@ -17,9 +17,18 @@ public:
 
     void addEntry(BlogEntry&);
     void removeEntry(unsigned index);
+    void updateEntry(unsigned, QString, QString);
+
+    const QList<BlogEntry>& getEntries() {
+        return items;
+    }
 
     QString getOwnerId() const {
         return ownerId;
+    }
+
+    QString getTitle() const {
+        return title;
     }
 
 private:

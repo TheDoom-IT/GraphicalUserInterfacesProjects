@@ -4,12 +4,6 @@
 #include <QMainWindow>
 #include "services/login.h"
 
-enum class Page {
-    INITIAL = 0,
-    LOGIN = 1,
-    REGISTER = 2
-};
-
 namespace Ui {
 class InitialWindow;
 }
@@ -17,6 +11,12 @@ class InitialWindow;
 class InitialWindow : public QMainWindow
 {
     Q_OBJECT
+
+    enum class Page {
+        INITIAL = 0,
+        LOGIN = 1,
+        REGISTER = 2
+    };
 
 public:
     explicit InitialWindow(QWidget *parent, LoginService* loginService);

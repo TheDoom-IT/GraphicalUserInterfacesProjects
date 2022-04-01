@@ -5,6 +5,8 @@
 #include <QDateTime>
 #include <QJsonObject>
 
+class Blog;
+
 class BlogEntry
 {
 public:
@@ -15,10 +17,24 @@ public:
     bool read(const QJsonObject&);
 
     void logOut();
+
+    QString getTitle() {
+        return title;
+    }
+
+    QString getDatetime() {
+        return datetime.toString(Qt::DateFormat::ISODate);
+    }
+
+    QString getContent() {
+        return content;
+    }
 private:
     QString title;
     QDateTime datetime;
     QString content;
+
+    friend Blog;
 };
 
 #endif // BLOGENTRY_H

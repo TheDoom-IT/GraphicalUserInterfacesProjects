@@ -37,6 +37,14 @@ void Blog::removeEntry(unsigned index)
         this->items.removeAt(index);
 }
 
+void Blog::updateEntry(unsigned index, QString title, QString content)
+{
+    auto entry = this->items.at(index);
+    entry.title = title;
+    entry.content = content;
+    this->items.replace(index, entry);
+}
+
 void Blog::write(QJsonObject &json) const
 {
     json["title"] = this->title;
