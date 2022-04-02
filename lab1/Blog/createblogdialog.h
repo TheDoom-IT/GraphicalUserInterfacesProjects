@@ -22,7 +22,7 @@ public:
     void clearWindow();
 private slots:
 
-    void on_titleText_textChanged(const QString &arg1);
+    void on_titleInput_textChanged(const QString &arg1);
 
     void on_okBtn_clicked();
 

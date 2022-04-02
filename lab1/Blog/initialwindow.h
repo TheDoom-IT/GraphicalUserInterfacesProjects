@@ -29,8 +29,8 @@ signals:
 
 private slots:
     // navigation buttons
-    void on_signInBtn_clicked();
-    void on_signUpBtn_clicked();
+    void on_initialSignInBtn_clicked();
+    void on_initialSignUpBtn_clicked();
 
     void on_loginSignInBtn_clicked();
     void on_loginBackBtn_clicked();

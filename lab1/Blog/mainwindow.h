@@ -42,7 +42,7 @@ private slots:
     void on_actionLog_out_triggered();
     void on_actionAbout_triggered();
 
-    void on_entryTable_doubleClicked(const QModelIndex &index);
+    void on_mainBlogEntryTable_doubleClicked(const QModelIndex &index);
 
     void on_editSaveBtn_clicked();
 
@@ -56,6 +56,8 @@ private slots:
     void enableEditRemoveActions();
 
     void editCreateInputChanged();
+
+    void on_editBackBtn_clicked();
 
 private:
     Ui::MainWindow *ui;

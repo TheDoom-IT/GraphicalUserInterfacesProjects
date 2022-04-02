@@ -13,13 +13,13 @@ InitialWindow::InitialWindow(QWidget *parent, LoginService* loginService) :
 
     ui->stackedWidget->setCurrentIndex((int)Page::INITIAL);
 
-    connect(ui->loginUsernameText, SIGNAL(textChanged(QString)), this, SLOT(signInInputChanged()));
-    connect(ui->loginPasswdText, SIGNAL(textChanged(QString)), this, SLOT(signInInputChanged()));
+    connect(ui->loginUsernameInput, SIGNAL(textChanged(QString)), this, SLOT(signInInputChanged()));
+    connect(ui->loginPasswdInput, SIGNAL(textChanged(QString)), this, SLOT(signInInputChanged()));
 
-    connect(ui->rgsUsernameText, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
-    connect(ui->rgsEmailText, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
-    connect(ui->rgsPasswdText, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
-    connect(ui->rgsConfPasswdText, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
+    connect(ui->rgsUsernameInput, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
+    connect(ui->rgsEmailInput, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
+    connect(ui->rgsPasswdInput, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
+    connect(ui->rgsConfPasswdInput, SIGNAL(textChanged(QString)), this, SLOT(signUpInputChanged()));
 }
 
 InitialWindow::~InitialWindow()
@@ -35,14 +35,14 @@ void InitialWindow::resetWindow()
     ui->stackedWidget->setCurrentIndex((int)Page::INITIAL);
 }
 
-void InitialWindow::on_signInBtn_clicked()
+void InitialWindow::on_initialSignInBtn_clicked()
 {
     clearSignInPage();
     clearInitialPage();
     ui->stackedWidget->setCurrentIndex((int)Page::LOGIN);
 }
 
-void InitialWindow::on_signUpBtn_clicked()
+void InitialWindow::on_initialSignUpBtn_clicked()
 {
     clearSignUpPage();
     clearInitialPage();
@@ -62,8 +62,8 @@ void InitialWindow::on_rgsBackBtn_clicked()
 // enable/disable signIn button
 void InitialWindow::signInInputChanged()
 {
-    QString login = ui->loginUsernameText->text();
-    QString password = ui->loginPasswdText->text();
+    QString login = ui->loginUsernameInput->text();
+    QString password = ui->loginPasswdInput->text();
 
     if(login == "" || password == "")
         return ui->loginSignInBtn->setEnabled(false);
@@ -74,10 +74,10 @@ void InitialWindow::signInInputChanged()
 // enable/disable signUp button
 void InitialWindow::signUpInputChanged()
 {
-    QString login = ui->rgsUsernameText->text();
-    QString email = ui->rgsEmailText->text();
-    QString passwd = ui->rgsPasswdText->text();
-    QString confPasswd = ui->rgsConfPasswdText->text();
+    QString login = ui->rgsUsernameInput->text();
+    QString email = ui->rgsEmailInput->text();
+    QString passwd = ui->rgsPasswdInput->text();
+    QString confPasswd = ui->rgsConfPasswdInput->text();
 
     if(login.isEmpty() || email.isEmpty() || passwd.isEmpty() || confPasswd.isEmpty())
         return ui->rgsSignUpBtn->setEnabled(false);
@@ -87,46 +87,46 @@ void InitialWindow::signUpInputChanged()
 
 void InitialWindow::clearSignInPage()
 {
-    ui->loginUsernameText->clear();
-    ui->loginPasswdText->clear();
-    ui->loginInfoText->clear();
+    ui->loginUsernameInput->clear();
+    ui->loginPasswdInput->clear();
+    ui->loginInfoLabel->clear();
     ui->loginSignInBtn->setEnabled(false);
 }
 
 void InitialWindow::clearSignUpPage()
 {
-    ui->rgsUsernameText->clear();
-    ui->rgsEmailText->clear();
-    ui->rgsPasswdText->clear();
-    ui->rgsConfPasswdText->clear();
-    ui->rgsInfoText->clear();
+    ui->rgsUsernameInput->clear();
+    ui->rgsEmailInput->clear();
+    ui->rgsPasswdInput->clear();
+    ui->rgsConfPasswdInput->clear();
+    ui->rgsInfoLabel->clear();
     ui->rgsSignUpBtn->setEnabled(false);
 }
 
 void InitialWindow::clearInitialPage()
 {
-    ui->initialInfoText->clear();
+    ui->initialInfoLabel->clear();
 }
 
 // create a new account
 void InitialWindow::on_rgsSignUpBtn_clicked()
 {
-    QString username = ui->rgsUsernameText->text();
-    QString email = ui->rgsEmailText->text();
-    QString password = ui->rgsPasswdText->text();
-    QString confPassword = ui->rgsConfPasswdText->text();
+    QString username = ui->rgsUsernameInput->text();
+    QString email = ui->rgsEmailInput->text();
+    QString password = ui->rgsPasswdInput->text();
+    QString confPassword = ui->rgsConfPasswdInput->text();
 
     std::pair<bool, QString> result = loginService->signUp(username, email, password, confPassword);
 
     if(!result.first)
     {
         // show error information
-        ui->rgsInfoText->setText(result.second);
+        ui->rgsInfoLabel->setText(result.second);
         return;
     }
 
     // show information on the initial window about successful signing up
-    ui->initialInfoText->setText(tr("Succesfully created a new account. You can now log in."));
+    ui->initialInfoLabel->setText(tr("Succesfully created a new account. You can now log in."));
     ui->stackedWidget->setCurrentIndex((int)Page::INITIAL);
 }
 
@@ -134,14 +134,14 @@ void InitialWindow::on_rgsSignUpBtn_clicked()
 // log in
 void InitialWindow::on_loginSignInBtn_clicked()
 {
-    QString username = ui->loginUsernameText->text();
-    QString password = ui->loginPasswdText->text();
+    QString username = ui->loginUsernameInput->text();
+    QString password = ui->loginPasswdInput->text();
 
     auto result = loginService->signIn(username, password);
 
     if(!result.first)
     {
-        ui->loginInfoText->setText(result.second);
+        ui->loginInfoLabel->setText(result.second);
         return;
     }
 

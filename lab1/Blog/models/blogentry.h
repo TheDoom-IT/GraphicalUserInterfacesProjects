@@ -21,7 +21,7 @@ public:
     }
 
     QString getDatetime() {
-        return datetime.toString(Qt::DateFormat::ISODate);
+        return datetime.toString(Qt::ISODate);
     }
 
     QString getContent() {

@@ -17,13 +17,13 @@ CreateBlogDialog::~CreateBlogDialog()
 
 void CreateBlogDialog::setErrorMessage(QString message)
 {
-    this->ui->errorText->setText(message);
+    this->ui->errorLabel->setText(message);
 }
 
 void CreateBlogDialog::clearWindow()
 {
-    ui->errorText->clear();
-    ui->titleText->clear();
+    ui->errorLabel->clear();
+    ui->titleInput->clear();
 }
 
 void CreateBlogDialog::keyPressEvent(QKeyEvent * event)
@@ -35,7 +35,7 @@ void CreateBlogDialog::keyPressEvent(QKeyEvent * event)
     return QDialog::keyPressEvent(event);
 }
 
-void CreateBlogDialog::on_titleText_textChanged(const QString &text)
+void CreateBlogDialog::on_titleInput_textChanged(const QString &text)
 {
     if(text.isEmpty())
         return ui->okBtn->setEnabled(false);
@@ -45,6 +45,6 @@ void CreateBlogDialog::on_titleText_textChanged(const QString &text)
 
 void CreateBlogDialog::on_okBtn_clicked()
 {
-    QString title = ui->titleText->text();
+    QString title = ui->titleInput->text();
     emit accepted(title);
 }

@@ -12,7 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     ui->editSaveBtn->setEnabled(false);
+    ui->mainBlogEntryTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->mainBlogEntryTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    ui->mainBlogEntryTable->horizontalHeader()->setMinimumSectionSize(ui->mainBlogEntryTable->width()/3.0);
+    ui->stackedWidget->setCurrentIndex((int)Page::MAIN);
 
     // initialize private fields
     userRepository = new UserRepository(DATA_PATH, USERS_DIR);
@@ -26,12 +31,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(initial, SIGNAL(loggedIn()), this, SLOT(initializeMainWindow()));
     connect(createBlogDialog, SIGNAL(accepted(QString)), this, SLOT(createEmptyBlog(QString)));
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(enableActions(int)));
-    connect(ui->entryTable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEditRemoveActions()));
+    connect(ui->mainBlogEntryTable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEditRemoveActions()));
 
-    connect(ui->editContentText, SIGNAL(textChanged()), this, SLOT(editCreateInputChanged()));
-    connect(ui->editTitleText, SIGNAL(textChanged(QString)), this, SLOT(editCreateInputChanged()));
+    connect(ui->editContentInput, SIGNAL(textChanged()), this, SLOT(editCreateInputChanged()));
+    connect(ui->editTitleInput, SIGNAL(textChanged(QString)), this, SLOT(editCreateInputChanged()));
 
-    ui->stackedWidget->setCurrentIndex((int)Page::MAIN);
+
 
     // needed for EDIT_CREATE Page
     // index of entry currently edited/shown
@@ -81,17 +86,18 @@ void MainWindow::showBlogData()
     if(blogService->getCurrentBlog() == nullptr)
         return;
 
-    this->ui->blogTitle->setText(blogService->getCurrentBlog()->getTitle());
+    this->ui->mainBlogTitleLabel->setText(blogService->getCurrentBlog()->getTitle());
 
     for (BlogEntry entry : blogService->getCurrentBlog()->getEntries())
     {
-        int rowCount = ui->entryTable->rowCount();
-        ui->entryTable->insertRow(rowCount);
+        int rowCount = ui->mainBlogEntryTable->rowCount();
+        ui->mainBlogEntryTable->insertRow(rowCount);
 
         QTableWidgetItem* title = new QTableWidgetItem(entry.getTitle());
-        ui->entryTable->setItem(rowCount, 0, title);
+        ui->mainBlogEntryTable->setItem(rowCount, 0, title);
         QTableWidgetItem* date = new QTableWidgetItem(entry.getDatetime());
-        ui->entryTable->setItem(rowCount, 1, date);
+        date->setTextAlignment(Qt::AlignCenter);
+        ui->mainBlogEntryTable->setItem(rowCount, 1, date);
     }
 
 }
@@ -108,8 +114,8 @@ void MainWindow::resetWindow()
 
 void MainWindow::clearEditCreatePage()
 {
-    ui->editContentText->clear();
-    ui->editTitleText->clear();
+    ui->editContentInput->clear();
+    ui->editTitleInput->clear();
 }
 
 void MainWindow::clearShowPage()
@@ -121,8 +127,8 @@ void MainWindow::clearShowPage()
 
 void MainWindow::clearMainPage()
 {
-    ui->blogTitle->clear();
-    ui->entryTable->setRowCount(0);
+    ui->mainBlogTitleLabel->clear();
+    ui->mainBlogEntryTable->setRowCount(0);
 }
 
 void MainWindow::enableActions(int pageIndex)
@@ -160,8 +166,6 @@ void MainWindow::enableActions(int pageIndex)
 void MainWindow::show() {
     if (!loginService->loggedIn())
     {
-//        loginService->signIn("dawid", "password");
-//        return initializeMainWindow();
         return initial->show();
     }
 
@@ -178,7 +182,7 @@ void MainWindow::show() {
 
 void MainWindow::enableEditRemoveActions()
 {
-    int selectedRows = this->ui->entryTable->selectionModel()->selectedRows().count();
+    int selectedRows = this->ui->mainBlogEntryTable->selectionModel()->selectedRows().count();
 
     if(selectedRows == 0)
     {
@@ -202,8 +206,8 @@ void MainWindow::enableEditRemoveActions()
 
 void MainWindow::editCreateInputChanged()
 {
-    QString title = ui->editTitleText->text();
-    QString content = ui->editContentText->toPlainText();
+    QString title = ui->editTitleInput->text();
+    QString content = ui->editContentInput->toPlainText();
 
     if(title == "" || content == "")
         return ui->editSaveBtn->setEnabled(false);
@@ -236,7 +240,7 @@ void MainWindow::on_actionRemove_triggered()
     }
 
     // remove multiple entries from the MAIN page
-    auto rows = ui->entryTable->selectionModel()->selectedRows();
+    auto rows = ui->mainBlogEntryTable->selectionModel()->selectedRows();
     QList<int> rowsNumber;
     for (auto row : rows)
     {
@@ -255,7 +259,7 @@ void MainWindow::on_actionHome_triggered()
 }
 
 // move to the SHOW page
-void MainWindow::on_entryTable_doubleClicked(const QModelIndex &index)
+void MainWindow::on_mainBlogEntryTable_doubleClicked(const QModelIndex &index)
 {
     // save which entry is shown
     this->selectedEntryIndex = index.row();
@@ -273,12 +277,12 @@ void MainWindow::on_actionEdit_triggered()
     // selectedEntryIndex should be initialized if edit run from MAIN Page
     // if run from SHOW the selectedEntryIndex is already initialized
     if(ui->stackedWidget->currentIndex() == (int)Page::MAIN)
-        this->selectedEntryIndex = ui->entryTable->selectionModel()->selectedRows().first().row();
+        this->selectedEntryIndex = ui->mainBlogEntryTable->selectionModel()->selectedRows().first().row();
 
     isNew = false;
     BlogEntry blogEntry = blogService->getCurrentBlog()->getEntries().at(selectedEntryIndex);
-    ui->editTitleText->setText(blogEntry.getTitle());
-    ui->editContentText->setText(blogEntry.getContent());
+    ui->editTitleInput->setText(blogEntry.getTitle());
+    ui->editContentInput->setText(blogEntry.getContent());
     ui->stackedWidget->setCurrentIndex((int)Page::EDIT_CREATE);
 }
 
@@ -286,16 +290,16 @@ void MainWindow::on_actionEdit_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     isNew = true;
-    ui->editTitleText->clear();
-    ui->editContentText->clear();
+    ui->editTitleInput->clear();
+    ui->editContentInput->clear();
     ui->stackedWidget->setCurrentIndex((int)Page::EDIT_CREATE);
 }
 
 // save edited/new entry
 void MainWindow::on_editSaveBtn_clicked()
 {
-    QString title = ui->editTitleText->text();
-    QString content = ui->editContentText->toPlainText();
+    QString title = ui->editTitleInput->text();
+    QString content = ui->editContentInput->toPlainText();
 
     std::pair<bool, QString> result;
     if(isNew)
@@ -328,4 +332,10 @@ void MainWindow::on_actionLog_out_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     showInfoDialog(tr("About"), tr("Blog desktop application\nEGUI Project 2022L"));
+}
+
+void MainWindow::on_editBackBtn_clicked()
+{
+    // move to MAIN Page
+    return ui->actionHome->trigger();
 }
