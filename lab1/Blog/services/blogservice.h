@@ -1,6 +1,7 @@
 #ifndef BLOGSERVICE_H
 #define BLOGSERVICE_H
 
+#include <QCoreApplication>
 #include <QtCore>
 #include <utility>
 #include "models/blog.h"
@@ -22,11 +23,8 @@ public:
     }
 
     void removeEntries(QList<int>);
-    void updateEntry(int, QString, QString);
-    void addEntry(QString, QString);
-//public signals:
-//    void blogUpdated();
-
+    std::pair<bool, QString> updateEntry(int, QString, QString);
+    std::pair<bool, QString> addEntry(QString, QString);
 private:
     Blog* currentBlog;
     BlogRepository* blogRepository;

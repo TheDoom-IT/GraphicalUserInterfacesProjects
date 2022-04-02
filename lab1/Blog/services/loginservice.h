@@ -11,6 +11,7 @@ class LoginService
 
 public:
     LoginService(UserRepository*);
+    ~LoginService();
 
     bool loggedIn();
 

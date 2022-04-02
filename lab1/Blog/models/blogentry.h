@@ -16,8 +16,6 @@ public:
     void write(QJsonObject&) const;
     bool read(const QJsonObject&);
 
-    void logOut();
-
     QString getTitle() {
         return title;
     }

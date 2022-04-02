@@ -10,6 +10,8 @@
 class BlogRepository
 {
     Q_DECLARE_TR_FUNCTIONS(LoginService)
+
+    static const QString OWNER_ID_INDEX;
 public:
     BlogRepository(QString dataPath, QString blogsDir);
     ~BlogRepository();
@@ -21,6 +23,15 @@ public:
 
 private:
     QDir dataDir;
+    QDir indexDir;
+
+    bool prepareIndexDir(QString dataPath, QString blogsDir);
+    bool prepareDataDir(QString dataPath, QString blogsDir);
+
+    std::pair<bool, QString> writeBlogFile(const Blog&) const;
+    std::pair<bool, QString> writeOwnerIdIndexFile(const Blog&) const;
+
+    void throwUnableToAccessData() const;
 };
 
 #endif // BLOGREPOSITORY_H

@@ -33,7 +33,7 @@ void Blog::addEntry(BlogEntry& entry)
 
 void Blog::removeEntry(unsigned index)
 {
-    if(index < this->items.length())
+    if(index < (unsigned)this->items.length())
         this->items.removeAt(index);
 }
 

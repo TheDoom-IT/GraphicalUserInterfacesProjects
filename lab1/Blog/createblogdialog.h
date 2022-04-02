@@ -2,10 +2,9 @@
 #define CREATEBLOGDIALOG_H
 
 #include <QDialog>
-#include <QAbstractButton>
 #include <QKeyEvent>
 #include "services/blogservice.h"
-#include "services/login.h"
+#include "services/loginservice.h"
 
 namespace Ui {
 class CreateBlogDialog;
@@ -20,6 +19,7 @@ public:
     ~CreateBlogDialog();
     void setErrorMessage(QString message);
 
+    void clearWindow();
 private slots:
 
     void on_titleText_textChanged(const QString &arg1);

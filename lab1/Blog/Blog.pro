@@ -26,7 +26,8 @@ SOURCES += \
     repositories/blogrepository.cpp \
     repositories/userrepository.cpp \
     services/blogservice.cpp \
-    services/login.cpp
+    services/loginservice.cpp \
+    shared.cpp
 
 HEADERS += \
     createblogdialog.h \
@@ -38,7 +39,8 @@ HEADERS += \
     repositories/userrepository.h \
     models/user.h \
     services/blogservice.h \
-    services/login.h
+    services/loginservice.h \
+    shared.h
 
 FORMS += \
     createblogdialog.ui \

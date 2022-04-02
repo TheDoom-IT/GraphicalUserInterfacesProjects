@@ -2,12 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableWidgetItem>
 #include "initialwindow.h"
 #include "createblogdialog.h"
 #include "repositories/userrepository.h"
 #include "repositories/blogrepository.h"
-#include "services/login.h"
+#include "services/loginservice.h"
 #include "services/blogservice.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +24,7 @@ class MainWindow : public QMainWindow
         EDIT_CREATE
     };
 
+    // data directories
     static const QString DATA_PATH;
     static const QString USERS_DIR;
     static const QString BLOGS_DIR;
@@ -33,26 +33,29 @@ public:
     ~MainWindow();
     void show();
 
-public slots:
-    void initializeMainWindow();
-    void createEmptyBlog(QString title);
-
 private slots:
-    void on_entryTable_itemSelectionChanged();
-
+    // action slots
     void on_actionRemove_triggered();
-
     void on_actionHome_triggered();
-
     void on_actionEdit_triggered();
-
     void on_actionNew_triggered();
-
-    void enableActions(int);
+    void on_actionLog_out_triggered();
+    void on_actionAbout_triggered();
 
     void on_entryTable_doubleClicked(const QModelIndex &index);
 
     void on_editSaveBtn_clicked();
+
+    //custom slots
+    void enableActions(int);
+
+    void initializeMainWindow();
+
+    void createEmptyBlog(QString title);
+
+    void enableEditRemoveActions();
+
+    void editCreateInputChanged();
 
 private:
     Ui::MainWindow *ui;
@@ -64,9 +67,15 @@ private:
     UserRepository* userRepository;
     BlogRepository* blogRepository;
 
+    // needed for EDIT_CREATE Page
     int selectedEntryIndex;
-    bool isCreate;
+    bool isNew;
 
     void showBlogData();
+    void resetWindow();
+
+    void clearEditCreatePage();
+    void clearShowPage();
+    void clearMainPage();
 };
 #endif // MAINWINDOW_H

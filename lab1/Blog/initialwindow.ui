@@ -39,7 +39,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="initialPage">
        <property name="sizePolicy">
@@ -291,7 +291,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="rgsPasswdText"/>
+             <widget class="QLineEdit" name="rgsPasswdText">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -314,7 +318,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="rgsConfPasswdText"/>
+             <widget class="QLineEdit" name="rgsConfPasswdText">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

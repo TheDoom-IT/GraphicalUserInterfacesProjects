@@ -20,6 +20,12 @@ void CreateBlogDialog::setErrorMessage(QString message)
     this->ui->errorText->setText(message);
 }
 
+void CreateBlogDialog::clearWindow()
+{
+    ui->errorText->clear();
+    ui->titleText->clear();
+}
+
 void CreateBlogDialog::keyPressEvent(QKeyEvent * event)
 {
     // do not close dialog when Escape is clicked

@@ -2,7 +2,7 @@
 #define INITIALWINDOW_H
 
 #include <QMainWindow>
-#include "services/login.h"
+#include "services/loginservice.h"
 
 namespace Ui {
 class InitialWindow;
@@ -22,6 +22,8 @@ public:
     explicit InitialWindow(QWidget *parent, LoginService* loginService);
     ~InitialWindow();
 
+    void resetWindow();
+
 signals:
     void loggedIn();
 
@@ -36,9 +38,16 @@ private slots:
     void on_rgsSignUpBtn_clicked();
     void on_rgsBackBtn_clicked();
 
+    void signInInputChanged();
+    void signUpInputChanged();
+
 private:
     Ui::InitialWindow *ui;
     LoginService* loginService;
+
+    void clearSignInPage();
+    void clearSignUpPage();
+    void clearInitialPage();
 };
 
 #endif // INITIALWINDOW_H

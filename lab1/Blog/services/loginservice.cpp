@@ -1,9 +1,15 @@
-#include "login.h"
+#include "loginservice.h"
 
 LoginService::LoginService(UserRepository* userRepository)
 {
     this->currentUser = nullptr;
     this->userRepository = userRepository;
+}
+
+LoginService::~LoginService()
+{
+    if(currentUser == nullptr)
+        delete currentUser;
 }
 
 bool LoginService::loggedIn()
@@ -45,13 +51,15 @@ std::pair<bool, QString> LoginService::signIn(QString username, QString password
         return std::pair(true, "");
     }
 
-    // information about invalid logIn
     return std::pair(false, tr("Invalid username and/or password."));
 }
 
 bool LoginService::logOut()
 {
-    delete currentUser;
-    currentUser = nullptr;
+    if (currentUser == nullptr)
+    {
+        delete currentUser;
+        currentUser = nullptr;
+    }
     return true;
 }

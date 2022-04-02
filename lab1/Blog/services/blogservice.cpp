@@ -1,5 +1,4 @@
 #include "blogservice.h"
-#include <QtDebug>
 
 BlogService::BlogService(BlogRepository* blogRepository)
 {
@@ -10,17 +9,18 @@ BlogService::BlogService(BlogRepository* blogRepository)
 std::pair<bool, QString> BlogService::createEmptyBlog(QString title, QString userId)
 {
     auto blog = blogRepository->findOne(title);
+    // blog with given title already exists
     if(blog.has_value())
         return std::pair(false, tr("Blog with such a title already exists."));
 
-    // create new blog
-    if(this->currentBlog == nullptr)
-    {
+    if(this->currentBlog != nullptr)
         delete this->currentBlog;
-    }
 
     this->currentBlog = new Blog(title, userId,QList<BlogEntry>());
-    this->blogRepository->insertOne(*this->currentBlog);
+    std::pair<bool, QString> result = this->blogRepository->insertOne(*this->currentBlog);
+    if(!result.first)
+        return result;
+
 
     return std::pair(true, "");
 }
@@ -34,6 +34,7 @@ bool BlogService::loadBlogOfUser(QString userId)
         return true;
     }
 
+    this->currentBlog = nullptr;
     return false;
 }
 
@@ -47,15 +48,23 @@ void BlogService::removeEntries(QList<int> indices)
     blogRepository->updateOne(*currentBlog);
 }
 
-void BlogService::updateEntry(int index, QString title, QString content)
+std::pair<bool, QString> BlogService::updateEntry(int index, QString title, QString content)
 {
     currentBlog->updateEntry(index, title, content);
-    blogRepository->updateOne(*currentBlog);
+    auto result = blogRepository->updateOne(*currentBlog);
+    if(!result.first)
+        return result;
+
+    return std::pair(true, "");
 }
 
-void BlogService::addEntry(QString title, QString content)
+std::pair<bool, QString> BlogService::addEntry(QString title, QString content)
 {
     BlogEntry blogEntry(title, QDateTime::currentDateTime(), content);
     currentBlog->addEntry(blogEntry);
-    blogRepository->updateOne(*currentBlog);
+    auto result = blogRepository->updateOne(*currentBlog);
+    if(!result.first)
+        return result;
+
+    return std::pair(true, "");
 }

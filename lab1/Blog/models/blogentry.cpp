@@ -21,12 +21,6 @@ bool BlogEntry::read(const QJsonObject &json)
     return true;
 }
 
-void BlogEntry::logOut()
-{
-    auto logger = qDebug();
-    logger << this->title << this->datetime.toString(Qt::DateFormat::ISODate) << this->content;
-}
-
 void BlogEntry::write(QJsonObject &json) const
 {
     json["title"] = this->title;
