@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // connect
     connect(initial, SIGNAL(loggedIn()), this, SLOT(initializeMainWindow()));
-    connect(createBlogDialog, SIGNAL(accepted(QString)), this, SLOT(createEmptyBlog(QString)));
+    connect(createBlogDialog, SIGNAL(accepted_create_dialog(QString)), this, SLOT(createEmptyBlog(QString)));
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(enableActions(int)));
     connect(ui->mainBlogEntryTable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEditRemoveActions()));
 

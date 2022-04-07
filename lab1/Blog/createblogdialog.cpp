@@ -46,5 +46,5 @@ void CreateBlogDialog::on_titleInput_textChanged(const QString &text)
 void CreateBlogDialog::on_okBtn_clicked()
 {
     QString title = ui->titleInput->text();
-    emit accepted(title);
+    emit accepted_create_dialog(title);
 }

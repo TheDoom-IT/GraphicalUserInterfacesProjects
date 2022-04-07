@@ -27,7 +27,7 @@ private slots:
     void on_okBtn_clicked();
 
 signals:
-    void accepted(QString title);
+    void accepted_create_dialog(QString title);
 
 private:
     Ui::CreateBlogDialog *ui;
