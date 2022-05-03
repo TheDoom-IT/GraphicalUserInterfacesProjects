@@ -1,0 +1,35 @@
+@model blog.Models.BlogEntry
+
+@{
+    ViewData["Title"] = "Blog entry";
+}
+
+<div class="row mt-3">
+    <div class="text-center">
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="col-md-12">
+        <div class="d-flex">
+            <div class="w-100">
+                <a class="text-decoration-none" asp-controller="Blog" asp-action="Show" asp-route-Id="@Model.BlogId"><i
+                        class="bi bi-arrow-left"></i>
+                    @Model.Blog.Title</a>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button type="button" class="btn btn-primary" name="deleteBlogEntryButton" data-id="@Model.Id"
+                    data-title="@Model.Title" data-blog-id="@Model.BlogId">
+                    Delete
+                </button>
+
+                @Html.ActionLink("Edit", "Edit", "BlogEntry", new { BlogId = @Model.BlogId, Id = @Model.Id}, new {
+                @class= "btn btn-primary me-2"})
+            </div>
+        </div>
+    </div>
+    <p class="text-muted">Created: @Model.DateTime.ToString("MM.dd.yyyy")</p>
+    <p class="text-justify white-space-pre-line">@Model.Content</p>
+
+    <partial name="~/Views/BlogEntry/_DeleteBlogEntryModal.cshtml"></partial>
+</div>
+
+<script src="~/js/showBlogEntry.js"></script>

@@ -1,0 +1,46 @@
+@model blog.Models.UserPanelViewModel
+@using blog.Services
+@inject IUserService userService
+
+<div class="row g-2 mt-3">
+    <div class="text-center col-md-12">
+        <h3>Your blogs</h3>
+    </div>
+
+    <div class="col-md-12">
+        <div class="d-flex flex-row-reverse">
+            <a asp-controller="Blog" asp-action="New" class="btn btn-primary">Create a new blog</a>
+        </div>
+    </div>
+
+    @foreach (var blog in Model.Blogs)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@blog.Title</h5>
+                    <div class="row text-nowrap text-center">
+                        <div class="col-2">
+                            <a class="card-link col text-decoration-none align-middle" asp-controller="Blog"
+                            asp-action="Show" asp-route-id="@blog.Id">Show</a>
+                        </div>
+                        <div class="col-2">
+                            <a class="card-link col text-decoration-none align-middle" asp-controller="Blog"
+                            asp-action="Edit" asp-route-id="@blog.Id">Edit</a>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-link text-decoration-none p-0" name="deleteBlogButton"
+                            data-id="@blog.Id" data-title="@blog.Title">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <partial name="~/Views/Blog/_DeleteBlogModal.cshtml"></partial>
+</div>
+
+<script src="~/js/userPanel.js"></script>

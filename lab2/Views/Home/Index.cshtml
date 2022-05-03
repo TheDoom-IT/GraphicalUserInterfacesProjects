@@ -1,0 +1,32 @@
+﻿@using blog.Services
+@inject IUserService userService
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+@if (userService.CurrentUser() != null)
+{
+    <div class="text-center mt-3">
+    <h1 class="display-4">
+        Welcome @(userService.CurrentUser()!.Login.ToString() + "!")
+    </h1>
+</div>
+}
+else
+{
+    <div class="text-center mt-3">
+    <h1 class="display-4">
+        Welcome to Blo.gg
+    </h1>
+    <div class="row">
+        <div class="col-md-12 text-center mb-2 mt-4">
+            <h5>You need to have an account to start:</h5>
+        </div>
+        <div class="col-md-12">
+            @Html.ActionLink("Sign In", "Index", "Login", new {}, new { @class= "btn btn-primary me-2"})
+            @Html.ActionLink("Sign Up", "Register", "Login", new {}, new { @class= "btn btn-primary"})
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,69 @@
+@model blog.Models.Blog
+
+<div class="row g-2 mt-3">
+    <div class="text-center col-md-12">
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="col-md-12 mb-4">
+        <div class="d-flex">
+            <div class="d-flex w-100">
+                @Html.ActionLink("Create a new blog entry", "New", "BlogEntry", new { BlogId = @Model.Id}, new {
+                @class="btn btn-primary"})
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button type="button" class="btn btn-primary white-space-nowrap" name="deleteBlogButton"
+                    data-id="@Model.Id" data-title="@Model.Title">
+                    Delete blog
+                </button>
+                @Html.ActionLink("Edit blog", "Edit", "Blog", new { Id = @Model.Id}, new { @class =
+                "btn btn-primary me-2 white-space-nowrap"})
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h4>Your blog entries:</h4>
+    </div>
+    @foreach (var entry in Model.BlogEntries)
+    {
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@entry.Title</h5>
+                    <p class="card-text text-justify">
+                        @if (@entry.Content.Length > 150)
+                        {
+                            @(entry.Content.Substring(0, 150) + "...")
+                        }
+                        else
+                        {
+                            @entry.Content
+                        }
+                    </p>
+                    <p class="text-muted">@entry.DateTime.ToString("MM.dd.yyyy")</p>
+                    <div class="row text-nowrap text-center">
+                        <div class="col-2">
+                            @Html.ActionLink("Show", "Show", "BlogEntry", new { BlogId = @Model.Id, Id = @entry.Id}, new {
+                        @class = "card-link col text-decoration-none align-middle"})
+                        </div>
+                        <div class="col-2">
+                            @Html.ActionLink("Edit", "Edit", "BlogEntry", new { BlogId = @Model.Id, Id = @entry.Id}, new {
+                        @class= "card-link col text-decoration-none align-middle"})
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-link text-decoration-none p-0" name="deleteBlogEntryButton"
+                            data-id="@entry.Id" data-title="@entry.Title" data-blog-id="@entry.BlogId">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <partial name="~/Views/Blog/_DeleteBlogModal.cshtml"></partial>
+    <partial name="~/Views/BlogEntry/_DeleteBlogEntryModal.cshtml"></partial>
+</div>
+</div>
+
+<script src="~/js/showBlog.js"></script>

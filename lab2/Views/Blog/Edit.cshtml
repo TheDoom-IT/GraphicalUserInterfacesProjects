@@ -1,0 +1,32 @@
+@model blog.Models.Blog
+
+@{
+    ViewData["Title"] = "Edit blog";
+}
+
+<div class="row mt-3">
+    <div class="text-center">
+        <h3>Edit blog</h3>
+    </div>
+    <div class="text-center text-success">
+        @TempData["Information"]
+    </div>
+    <div class="text-center text-danger">
+        @TempData["Error"]
+    </div>
+    @using (Html.BeginForm("Edit", "Blog", FormMethod.Post, new { @class = "needs-validation" }))
+    {
+        @Html.TextBoxFor(m => m.Id, new { @value = @Model.Id, @type = "hidden"})
+
+        <div class="form-group col-md-6 mb-1 mx-auto">
+            <label for="titleInput" class="mb-2">New title</label>
+            @Html.TextBoxFor(m => m.Title, new { @id = "titleInput", @class = "form-control"})
+        </div>
+        <div class="text-center text-danger mb-3">
+            @Html.ValidationMessageFor(m => m.Title, "")
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    }
+</div>
