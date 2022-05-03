@@ -1,0 +1,24 @@
+<!-- Delete blog modal -->
+<div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete blog</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete blog <b class="d-inline" id="delete-blog-title">
+                </b>?
+            </div>
+            <div class="modal-footer">
+                <button id="closeDeleteBlogModal" type="button" class="btn btn-secondary"
+                    data-dismiss="modal">Close</button>
+                @using (Html.BeginForm("Delete", "Blog", FormMethod.Post))
+                {
+                    <input id="delete-blog-id" type="hidden" name="Id">
+                    <button type="submit" class="btn btn-primary">Delete blog</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
