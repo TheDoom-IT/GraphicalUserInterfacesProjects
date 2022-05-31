@@ -1,0 +1,29 @@
+version: '3.0'
+
+services:
+  blog:
+    build:
+      context: ..
+      dockerfile: ./docker-files/Dockerfile
+    volumes:
+      - ../src:/app/src
+      - ../test:/app/test
+      - ../tsconfig.json:/app/tsconfig.json
+      - ../tsconfig.build.json:/app/tsconfig.build.json
+      - ../.env:/app/.env
+      - /app/node_modules
+      - /app/dist
+    ports:
+      - 4000:3000
+    depends_on:
+      - db
+  db:
+    environment:
+      POSTGRES_USER: $DB_USERNAME
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_DB_NAME
+    image: postgres:14
+    ports:
+      - 5432:$DB_PORT
+    # volumes:
+      # - ../db:/var/lib/postgresql/data

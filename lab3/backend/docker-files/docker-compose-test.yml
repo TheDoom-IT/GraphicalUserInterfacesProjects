@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  blog-test:
+    build:
+      context: ..
+      dockerfile: ./docker-files/Dockerfile.test
+    volumes:
+      - /app/node_modules
+      - /app/dist
+      - ../src:/app/src
+      - ../test:/app/test
+    ports:
+      - 4000:3000
