@@ -41,7 +41,6 @@ export function EntriesNew() {
                 return
             }
             case StatusCodes.CREATED: {
-                console.log(PATH_ENTRIES_SHOW_PARAM(blogId!!, response.id))
                 navigate(PATH_ENTRIES_SHOW_PARAM(blogId!!, response.id))
                 break
             }

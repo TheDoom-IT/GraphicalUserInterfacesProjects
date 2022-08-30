@@ -11,7 +11,6 @@
     "build:test": "docker-compose -f docker-files/docker-compose-test.yml --env-file .env build",
     "start": "docker-compose -f docker-files/docker-compose-dev.yml --env-file .env up blog; docker-compose -f docker-files/docker-compose-dev.yml down",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start:dev": "docker-compose",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
